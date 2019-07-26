@@ -60,3 +60,8 @@ async function add(user) {
   return findById(id);
 }
 
+function findById(id) {
+  return db('users')
+    .where({ id })
+    .first();
+}
