@@ -1,4 +1,3 @@
-const router = require('express').Router()
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
@@ -98,7 +97,6 @@ function generateToken(user) {
   const payload = {
     sub: user.id,
     username: user.username,
-    roles: ['user']
   }
   const options = {
     expiresIn: '1d'
