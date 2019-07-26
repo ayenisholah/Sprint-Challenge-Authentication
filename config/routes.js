@@ -72,6 +72,8 @@ const Users = {
   findById,
 };
 
+
+
 function find() {
   return db('users').select('id', 'username', 'password');
 }
@@ -104,3 +106,4 @@ function generateToken(user) {
 
   return jwt.sign(payload, secret.jwtSecret, options);
 }
+

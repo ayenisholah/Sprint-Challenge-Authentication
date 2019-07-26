@@ -41,6 +41,18 @@ describe('Users.insert', () => {
     users = await Users.find();
 
     expect(users).toHaveLength(2)
+  });
+});
+
+describe('Users.find', () => {
+  it('should return an array of objects', async () => {
+    let users = await Users.find();
+    expect(users).toHaveLength(0)
+
+    await Users.add({ username: 'alex', password: 1234 });
+    await Users.add({ username: 'matt', password: 1234 });
+    users = await Users.find();
+
+    expect(users).toMatchObject(users)
   })
 })
-
