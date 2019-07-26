@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
+const secret = require('./secrets.js')
 
 const { authenticate } = require('../auth/authenticate');
 
