@@ -91,3 +91,17 @@ function findById(id) {
     .where({ id })
     .first();
 }
+
+// function to generate token
+function generateToken(user) {
+  const payload = {
+    sub: user.id,
+    username: user.username,
+    roles: ['user']
+  }
+  const options = {
+    expiresIn: '1d'
+  }
+
+  return jwt.sign(payload, secret.jwtSecret, options);
+}
