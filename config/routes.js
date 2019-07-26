@@ -1,3 +1,6 @@
+const router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const axios = require('axios');
 
 const { authenticate } = require('../auth/authenticate');
@@ -9,7 +12,9 @@ module.exports = server => {
 };
 
 function register(req, res) {
-  // implement user registration
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
 }
 
 function login(req, res) {
@@ -30,3 +35,20 @@ function getJokes(req, res) {
       res.status(500).json({ message: 'Error Fetching Jokes', error: err });
     });
 }
+
+
+// Helper Function
+const db = require('../database/dbConfig.js');
+const Users = {
+  add,
+  find,
+  findBy,
+  findById,
+};
+
+function find() {
+  return db('users').select('id', 'username', 'password');
+}
+
+
+
