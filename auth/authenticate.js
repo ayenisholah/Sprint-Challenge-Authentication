@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
+const secret = require('../config/secrets')
+const env = require('dotenv');
 
-const jwtKey =
-  process.env.JWT_SECRET ||
-  'add a .env file to root of project with the JWT_SECRET variable';
+// const jwtKey =
+//   process.env.JWT_SECRET ||
+//   'add a .env file to root of project with the JWT_SECRET variable';
 
 // quickly see what this file exports
 module.exports = {
@@ -11,19 +13,20 @@ module.exports = {
 
 // implementation details
 function authenticate(req, res, next) {
-  const token = req.get('Authorization');
+  const token = req.headers.authorization;
 
   if (token) {
-    jwt.verify(token, jwtKey, (err, decoded) => {
-      if (err) return res.status(401).json(err);
-
-      req.decoded = decoded;
-
-      next();
+    jwt.verify(token, secret.jwtSecret, (err, decodedToken) => {
+        if (err) {
+            res.status(401).json({ you: 'not allowed' });
+        } else {
+            req.decodedToken = decodedToken;
+            console.log('decoded token', req.decodedToken);
+            
+            next();
+        }
     });
-  } else {
-    return res.status(401).json({
-      error: 'No token provided, must be set on the Authorization Header',
-    });
-  }
+} else {
+    res.status(401).json({ you: 'SHALL NOT PASS!' });
+}
 }
